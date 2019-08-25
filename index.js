@@ -20,21 +20,16 @@ document.addEventListener('DOMContentLoaded', event => {
         }]
       })
 
-      console.log('open')
-      await device.open()
-      console.log('opened:', device)
-
-      await navigator.usb.getDevices()
-      .then(devices => {
-        console.log("Total devices: " + devices.length);
-        devices.forEach(eachDevice => {
-          console.log("Product name: " + eachDevice.productName + ", serial number " + eachDevice.serialNumber);
-        });
-      });
+      console.log('open');
+      await device.open();
+      console.log('opened:', device);
 
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-	  await device.close()
+    if (!device){
+      return document.getElementById('status-block').innerHTML='No devices to choose from.';
+    }
+	  await device.close();
   })
 })
