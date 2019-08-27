@@ -1,11 +1,11 @@
 
 document.addEventListener('DOMContentLoaded', event => {
-  let button = document.getElementById('connect');
 
-  button.addEventListener('click', async() => {
-    let device;
-    const VENDOR_ID = 1999;
-    
+  let device;
+  const VENDOR_ID = 1999;
+  let connectButton = document.getElementById('connect');
+
+  connectButton.addEventListener('click', async() => {
     try {
 
       const connectedDevices = await navigator.usb.getDevices();
@@ -30,6 +30,14 @@ document.addEventListener('DOMContentLoaded', event => {
     if (!device){
       return document.getElementById('status-block').innerHTML='No devices to choose from.';
     }
-	  await device.close();
   })
+  let disconnectButton = document.getElementById('disconnect');
+
+  disconnectButton.addEventListener('click', async() => {
+    try {
+      await device.close();
+    } catch (err) {
+      console.log(err)
+    }
+  });
 })
