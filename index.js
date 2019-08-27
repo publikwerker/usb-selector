@@ -4,9 +4,16 @@ document.addEventListener('DOMContentLoaded', event => {
   let device;
   const VENDOR_ID = 1999;
   let connectButton = document.getElementById('connect');
+  let disconnectButton = document.getElementById('disconnect');
+  let recordButton = document.getElementById('record');
+  let stopButton = document.getElementById('stop');
 
   connectButton.addEventListener('click', async() => {
     try {
+      connectButton.disabled = true;
+      disconnectButton.disabled = false;
+      recordButton.disabled = false;
+      stopButton.disabled = true;
 
       const connectedDevices = await navigator.usb.getDevices();
       console.log("Total devices: " + connectedDevices.length);
@@ -30,10 +37,37 @@ document.addEventListener('DOMContentLoaded', event => {
     if (!device){
       return document.getElementById('status-block').innerHTML='No devices to choose from.';
     }
-  })
-  let disconnectButton = document.getElementById('disconnect');
+  });
+
+  recordButton.addEventListener('click', async() => {
+    connectButton.disabled = true;
+    disconnectButton.disabled = true;
+    recordButton.disabled = true;
+    stopButton.disabled = false;
+    try {
+      
+    } catch (err) {
+      console.log(err)
+    }
+  });
+
+  stopButton.addEventListener('click', async() => {
+    connectButton.disabled = true;
+    disconnectButton.disabled = false;
+    recordButton.disabled = false;
+    stopButton.disabled = true;
+    try {
+      
+    } catch (err) {
+      console.log(err)
+    }
+  });
 
   disconnectButton.addEventListener('click', async() => {
+    connectButton.disabled = false;
+    disconnectButton.disabled = true;
+    recordButton.disabled = true;
+    stopButton.disabled = true;
     try {
       await device.close();
     } catch (err) {
